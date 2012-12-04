@@ -1,0 +1,59 @@
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" 
+        android:orientation="vertical">
+        
+		 <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" >
+
+		     <Chronometer
+		         android:id="@+id/chronometer1"
+		         android:layout_width="wrap_content"
+		         android:layout_height="wrap_content"
+		         android:layout_centerHorizontal="true"
+		         android:layout_centerVertical="true"
+		         android:text="Chronometer"
+		         android:textSize="50sp" />
+
+        </RelativeLayout>
+        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:text="Start Timer"
+                android:onClick="startTimer"/>
+
+			<Button
+			    android:id="@+id/button2"
+			    android:layout_width="fill_parent"
+			    android:layout_height="fill_parent"
+			    android:layout_weight="1"
+			    android:text="Pause Timer"
+			    android:onClick="pauseTimer" />
+
+			<Button
+			    android:id="@+id/button3"
+			    android:layout_width="fill_parent"
+			    android:layout_height="fill_parent"
+			    android:layout_weight="1"
+			    android:text="Stop Timer"
+			    android:onClick="stopTimer" />
+
+        </LinearLayout>
+
+    </LinearLayout>
