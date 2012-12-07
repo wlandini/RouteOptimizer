@@ -19,11 +19,16 @@ public class Timer extends Activity {
 	boolean firstStart = true;
 	AlertDialog alertDialog;
 	AlertDialog alertDialog2;
+	AlertDialog alertDialog3;
 	AlertDialog.Builder alertDialogBuilder;
 	AlertDialog.Builder alertDialogBuilder2;
+	AlertDialog.Builder alertDialogBuilder3;
 	EditText pathEdit;
+	EditText pathEdit2;
+	EditText pathEdit3;
 	Editable startPathName;
 	Editable endPathName;
+	Editable description;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -31,36 +36,20 @@ public class Timer extends Activity {
 		setContentView(R.layout.timer_view);
 		
 		pathEdit = new EditText(this);
-		alertDialogBuilder = new AlertDialog.Builder(this);
-		alertDialogBuilder2 = new AlertDialog.Builder(this);
-		alertDialogBuilder2.setTitle("Ending Location");
-		alertDialogBuilder.setTitle("Starting Location");
-		alertDialogBuilder
-			.setView(pathEdit)
-			.setMessage("Enter the starting location of the path and hit OK to start timer")
-			.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-				
-				public void onClick(DialogInterface dialog, int which) {
-					startPathName = pathEdit.getText();
-					chron.setBase(SystemClock.elapsedRealtime());
-					chron.start();
-				}
-			})
-			.setNegativeButton("Cancel", null);
-		alertDialogBuilder2
-			.setView(pathEdit)
-			.setMessage("Enter the ending location of the path and hit OK to continue")
-			.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-				
-				public void onClick(DialogInterface dialog, int which) {
-					endPathName = pathEdit.getText();
-					chron.setBase(SystemClock.elapsedRealtime());
-					chron.stop();
-				}
-			})
-			.setNegativeButton("Cancel", null);
-		alertDialog = alertDialogBuilder.create();
-		alertDialog2 = alertDialogBuilder2.create();
+		pathEdit2 = new EditText(this);
+		pathEdit3 = new EditText(this);
+		alertDialogBuilder3 = new AlertDialog.Builder(this);
+		alertDialogBuilder3.
+		setTitle("Description")
+		.setView(pathEdit3)
+		.setMessage("Enter a description of the path")
+		.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+				description = pathEdit3.getText();
+			}
+		})
+		.setNegativeButton("Cancel", null);
 		chron = (Chronometer)findViewById(R.id.chronometer1);
 		referenceTime = 0;
 	}	
@@ -68,6 +57,21 @@ public class Timer extends Activity {
 	public void startTimer(View v) {
 		if (firstStart) {
 			firstStart = false;
+			alertDialogBuilder = new AlertDialog.Builder(this);
+			alertDialogBuilder.setTitle("Starting Location");
+			alertDialogBuilder
+				.setView(pathEdit)
+				.setMessage("Enter the starting location of the path and hit OK to start timer")
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					
+					public void onClick(DialogInterface dialog, int which) {
+						startPathName = pathEdit.getText();
+						chron.setBase(SystemClock.elapsedRealtime());
+						chron.start();
+					}
+				})
+				.setNegativeButton("Cancel", null);
+			alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
 		} else {
 			chron.setBase(chron.getBase() + SystemClock.elapsedRealtime() - referenceTime);
@@ -76,6 +80,23 @@ public class Timer extends Activity {
 	}
 	
 	public void stopTimer(View v) {
+		chron.stop();
+		chron.setBase(SystemClock.elapsedRealtime());
+		alertDialogBuilder2 = new AlertDialog.Builder(this);
+		alertDialogBuilder2.setTitle("Ending Location");
+		alertDialogBuilder2
+		.setView(pathEdit2)
+		.setMessage("Enter the ending location of the path and hit OK to continue")
+		.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+				endPathName = pathEdit2.getText();
+				alertDialog3 = alertDialogBuilder3.create();
+				alertDialog3.show();
+			}
+		})
+		.setNegativeButton("Cancel", null);
+		alertDialog2 = alertDialogBuilder2.create();
 		alertDialog2.show();
 	}
 	
