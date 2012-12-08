@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class SQLHelper extends SQLiteOpenHelper {
@@ -18,12 +17,10 @@ public class SQLHelper extends SQLiteOpenHelper {
 
 	public long insertPath(String start, String finish, String description, double time){
 		ContentValues cv = new ContentValues();
-		
 		cv.put("start", start);
 		cv.put("finish", finish);
 		cv.put("description", description);
 		cv.put("time", time);
-		
 		return getWritableDatabase().insert("paths", null, cv);
 	}
 	
@@ -34,7 +31,6 @@ public class SQLHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
 		
 	}
 	

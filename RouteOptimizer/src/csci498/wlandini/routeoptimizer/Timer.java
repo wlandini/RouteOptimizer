@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -123,7 +122,6 @@ public class Timer extends Activity {
 		time = ((finishTime - startTime)/1000) - (pauseTime/1000);
 		chron.stop();
 		chron.setBase(SystemClock.elapsedRealtime());
-		Toast.makeText(this, Double.toString(time), Toast.LENGTH_LONG).show();
 		alertDialogBuilder2 = new AlertDialog.Builder(this);
 		alertDialogBuilder2.setTitle("Ending Location");
 		alertDialogBuilder2

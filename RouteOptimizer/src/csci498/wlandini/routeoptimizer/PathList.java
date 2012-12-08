@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class PathList extends ListActivity {
+	
 	Cursor c = null;
 	PathAdapter adapter = null;
 	SQLHelper helper = null;
@@ -32,6 +33,7 @@ public class PathList extends ListActivity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		
 		helper.close();
 		startActivity(i);
 	}
@@ -40,7 +42,6 @@ public class PathList extends ListActivity {
 	@Override
 	public void onListItemClick(ListView list, View view, int position, long id) {
 		Intent i = new Intent(PathList.this, PathInfo.class);
-
 		i.putExtra(ID_EXTRA, String.valueOf(id));
 		startActivity(i);
 	}
@@ -68,7 +69,6 @@ public class PathList extends ListActivity {
 		@Override
 		public void bindView(View row, Context ctxt, Cursor c) {
 			PathHolder holder = (PathHolder)row.getTag();
-
 			holder.populateFrom(c, helper);
 		}
 
@@ -77,15 +77,14 @@ public class PathList extends ListActivity {
 			LayoutInflater inflater = getLayoutInflater();
 			View row = inflater.inflate(R.layout.row, parent, false);
 			PathHolder holder = new PathHolder(row);
-
 			row.setTag(holder);
-
-			return(row);
+			return row;
 		}
 
 	}
 
 	static class PathHolder {
+		
 		private TextView start = null;
 		private TextView finish = null;
 
@@ -97,7 +96,6 @@ public class PathList extends ListActivity {
 		void populateFrom(Cursor c, SQLHelper helper) {
 			start.setText(helper.getStart(c));
 			finish.setText(helper.getFinish(c));
-
 		}
 	}
 }

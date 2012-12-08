@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 public class PathInfo extends Activity {
+	
 	@Override 
 	public void onCreate(Bundle SavedInstanceState) {
 		 super.onCreate(SavedInstanceState);
@@ -22,4 +23,5 @@ public class PathInfo extends Activity {
 	     tv.setText(Double.toString(time));
 	     tv2.setText(description);
 	}
+	
 }
