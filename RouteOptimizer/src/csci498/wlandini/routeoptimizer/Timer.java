@@ -1,9 +1,12 @@
 package csci498.wlandini.routeoptimizer;
 
+import java.text.DecimalFormat;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.text.Editable;
@@ -33,7 +36,15 @@ public class Timer extends Activity {
 	String startName;
 	String finishName;
 	String desc;
-	int time;
+	double time;
+	double startTime;
+	double finishTime;
+	double pauseStartTime;
+	double pauseEndTime;
+	double pauseTime = 0;
+	boolean wasPaused = false;
+	Intent i;
+	Intent i2;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +56,8 @@ public class Timer extends Activity {
 		pathEdit2 = new EditText(this);
 		pathEdit3 = new EditText(this);
 		alertDialogBuilder3 = new AlertDialog.Builder(this);
+		i = new Intent(this, PathList.class);
+		i2 = new Intent(this, RouteOptimizer.class);
 		alertDialogBuilder3.
 		setTitle("Description")
 		.setView(pathEdit3)
@@ -54,15 +67,26 @@ public class Timer extends Activity {
 			public void onClick(DialogInterface dialog, int which) {
 				description = pathEdit3.getText();
 				desc = description.toString();
+				DecimalFormat df = new DecimalFormat("#.##");
+				time = Double.valueOf(df.format(time));
 				helper.insertPath(startName, finishName, desc, time);
+				startActivity(i);
 			}
 		})
-		.setNegativeButton("Cancel", null);
+		.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+				startActivity(i2);
+			}
+		});
 		chron = (Chronometer)findViewById(R.id.chronometer1);
 		referenceTime = 0;
 	}	
 	
 	public void startTimer(View v) {
+		if (wasPaused) {
+			pauseTime += SystemClock.elapsedRealtime() - pauseStartTime;
+		}
 		if (firstStart) {
 			firstStart = false;
 			alertDialogBuilder = new AlertDialog.Builder(this);
@@ -75,11 +99,17 @@ public class Timer extends Activity {
 					public void onClick(DialogInterface dialog, int which) {
 						startPathName = pathEdit.getText();
 						startName = startPathName.toString();
+						startTime = (double) SystemClock.elapsedRealtime();
 						chron.setBase(SystemClock.elapsedRealtime());
 						chron.start();
 					}
 				})
-				.setNegativeButton("Cancel", null);
+				.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					
+					public void onClick(DialogInterface dialog, int which) {
+						startActivity(i2);
+					}
+				});
 			alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
 		} else {
@@ -89,8 +119,11 @@ public class Timer extends Activity {
 	}
 	
 	public void stopTimer(View v) {
+		finishTime = (double) SystemClock.elapsedRealtime();
+		time = ((finishTime - startTime)/1000) - (pauseTime/1000);
 		chron.stop();
 		chron.setBase(SystemClock.elapsedRealtime());
+		Toast.makeText(this, Double.toString(time), Toast.LENGTH_LONG).show();
 		alertDialogBuilder2 = new AlertDialog.Builder(this);
 		alertDialogBuilder2.setTitle("Ending Location");
 		alertDialogBuilder2
@@ -105,13 +138,20 @@ public class Timer extends Activity {
 				alertDialog3.show();
 			}
 		})
-		.setNegativeButton("Cancel", null);
+		.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+				startActivity(i2);
+			}
+		});
 		alertDialog2 = alertDialogBuilder2.create();
 		alertDialog2.show();
 	}
 	
 	public void pauseTimer(View v) {
 		referenceTime = SystemClock.elapsedRealtime();
+		pauseStartTime = SystemClock.elapsedRealtime();
+		wasPaused = true;
 		chron.stop();
 	}
 	

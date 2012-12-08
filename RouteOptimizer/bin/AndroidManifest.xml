@@ -22,6 +22,7 @@
         </activity>
         <activity android:name="Timer"></activity>
         <activity android:name="PathList"></activity>
+        <activity android:name="PathInfo"></activity>
     </application>
 
 </manifest>

@@ -2,12 +2,14 @@ package csci498.wlandini.routeoptimizer;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class PathList extends ListActivity {
@@ -15,6 +17,7 @@ public class PathList extends ListActivity {
 	PathAdapter adapter = null;
 	SQLHelper helper = null;
 	public final static String ID_EXTRA = "csci498.wlandini.routeoptimizer._ID";
+	Intent i;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -23,22 +26,24 @@ public class PathList extends ListActivity {
 
 		helper = new SQLHelper(this);
 		initList();
+		i = new Intent(this, RouteOptimizer.class);
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-
 		helper.close();
+		startActivity(i);
 	}
+	
 
-	//	  @Override
-	//	  public void onListItemClick(ListView list, View view, int position, long id) {
-	//	    Intent i = new Intent(PathList.this, HikeStats.class);
-	//
-	//	    i.putExtra(ID_EXTRA, String.valueOf(id));
-	//	    startActivity(i);
-	//	  }
+	@Override
+	public void onListItemClick(ListView list, View view, int position, long id) {
+		Intent i = new Intent(PathList.this, PathInfo.class);
+
+		i.putExtra(ID_EXTRA, String.valueOf(id));
+		startActivity(i);
+	}
 
 
 	@SuppressWarnings("deprecation")
