@@ -42,7 +42,8 @@
             android:layout_weight="1"
             android:layout_height="fill_parent"
             android:text="List Of Paths"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:onClick="showListOfPaths" />
 
         <Button
             android:id="@+id/button3"

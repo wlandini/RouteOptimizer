@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name="Timer"></activity>
+        <activity android:name="PathList"></activity>
     </application>
 
 </manifest>

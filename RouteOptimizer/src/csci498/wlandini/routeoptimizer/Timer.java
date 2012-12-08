@@ -29,12 +29,18 @@ public class Timer extends Activity {
 	Editable startPathName;
 	Editable endPathName;
 	Editable description;
+	SQLHelper helper = null;
+	String startName;
+	String finishName;
+	String desc;
+	int time;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.timer_view);
 		
+		helper = new SQLHelper(this);
 		pathEdit = new EditText(this);
 		pathEdit2 = new EditText(this);
 		pathEdit3 = new EditText(this);
@@ -47,6 +53,8 @@ public class Timer extends Activity {
 			
 			public void onClick(DialogInterface dialog, int which) {
 				description = pathEdit3.getText();
+				desc = description.toString();
+				helper.insertPath(startName, finishName, desc, time);
 			}
 		})
 		.setNegativeButton("Cancel", null);
@@ -66,6 +74,7 @@ public class Timer extends Activity {
 					
 					public void onClick(DialogInterface dialog, int which) {
 						startPathName = pathEdit.getText();
+						startName = startPathName.toString();
 						chron.setBase(SystemClock.elapsedRealtime());
 						chron.start();
 					}
@@ -91,6 +100,7 @@ public class Timer extends Activity {
 			
 			public void onClick(DialogInterface dialog, int which) {
 				endPathName = pathEdit2.getText();
+				finishName = endPathName.toString();
 				alertDialog3 = alertDialogBuilder3.create();
 				alertDialog3.show();
 			}

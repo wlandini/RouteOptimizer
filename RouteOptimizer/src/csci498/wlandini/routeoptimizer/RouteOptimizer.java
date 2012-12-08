@@ -24,4 +24,9 @@ public class RouteOptimizer extends Activity {
     	Intent i = new Intent(this, Timer.class);
     	startActivity(i);
     }
+    
+    public void showListOfPaths(View view) {
+    	Intent i = new Intent(this, PathList.class);
+    	startActivity(i);
+    }
 }
